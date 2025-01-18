@@ -20,22 +20,12 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-	// Get the full URL from the headers
-	const headersList = await headers();
-	const url = headersList.get("x-next-url") || "http://localhost:3000/"; // Use a fallback base URL if x-next-url is not available
-
-	// Extract the pathname from the full URL
-	const pathname = new URL(url).pathname;
-
-	// Check if the current route is under /admin
-	const isAdminRoute = pathname.startsWith("/admin");
-
 	return (
 		<html lang="en">
 			<body className={`${Rauschen.className} antialiased`}>
 				<Suspense fallback={<Loader />}>
 					<QueryProvider>
-						{!isAdminRoute && <Nav />} {/* Conditionally render the Navbar */}
+						<Nav />
 						{children}
 						<Toaster position="top-right" richColors />
 					</QueryProvider>

@@ -9,14 +9,7 @@ const ConnectDb = async () => {
 		return cachedConnection;
 	}
 
-	const uri = process.env.MONGODB_URI;
-	const pass = process.env.MONGODB_PASS;
-
-	if (!uri || !pass) {
-		throw new Error("Missing MongoDB URI or password in environment variables");
-	}
-
-	const fullUri = uri.replace("<db_password>", pass);
+	const fullUri = process.env.MONGODB_URI;
 
 	try {
 		const connection = await mongoose.connect(fullUri, {
