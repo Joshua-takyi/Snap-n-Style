@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "@/model/schema";
+import ConnectDb from "@/utils/connect";
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	providers: [
 		CredentialsProvider({
@@ -13,13 +14,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			},
 			async authorize(credentials) {
 				const { email, password } = credentials;
-				const user = await User.findOne({ email });
+
+				await ConnectDb();
+				const user = await User.findOne({ email }).select("+password");
 				if (!user) {
-					throw new Error("Invalid credentials");
+					throw new Error("Invalid email or password");
 				}
 				const isPasswordCorrect = await bcrypt.compare(password, user.password);
 				if (!isPasswordCorrect) {
-					throw new Error("Invalid credentials");
+					throw new Error("Invalid email or password");
 				}
 
 				const name = user.firstName + " " + user.lastName;
@@ -60,6 +63,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			session.user.role = token.role;
 			return session;
 		},
-
 	},
 });

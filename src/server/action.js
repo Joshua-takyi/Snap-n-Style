@@ -1,34 +1,28 @@
 "use server";
+import { signIn } from "@/libs/auth";
 
-import {  signIn } from "@/libs/auth";
-import ConnectDb from "@/utils/connect";
-import { redirect } from "next/navigation";
-
-export async function signInAction(formData) {
-	const email = formData.get("email");
-	const password = formData.get("password");
-
-	if (!email || !password) {
-		return { error: "Email and password are required" };
-	}
-
+export const SignInAction = async ({ email, password }) => {
 	try {
-		await ConnectDb(); 
-
-		const result = await signIn("credentials", {
+		// Call NextAuth's signIn function with the credentials provider
+		await signIn("credentials", {
 			email,
 			password,
-			redirect: false,
+			redirect: false, // Disable automatic redirection
 		});
-
-		if (result?.error) {
-			return { error: result.error };
+		// If successful, return a success message
+		return { success: "Sign-in successful!" };
+	} catch (error) {
+		// Handle authentication errors
+		if (error) {
+			if (error.type == "CredentialsSignin") {
+				return { error: "Invalid email or password" };
+			} else {
+				return { error: "An error occurred during sign-in" };
+			}
 		}
 
-		// note:: Redirect on success
-		redirect("/");
-	} catch (error) {
-		console.error("Sign-in failed:", error);
-		return { error: "An error occurred during sign-in" };
+		// Handle other errors
+		console.error("Sign-in error occurred");
+		return { error: "An unexpected error occurred" };
 	}
-}
+};

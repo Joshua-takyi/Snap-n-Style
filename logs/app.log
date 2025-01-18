@@ -1,0 +1,72 @@
+[31m2025-01-15 15:01:52 [ERROR]: Error fetching items: ConnectDb is not defined[39m
+[31m2025-01-15 15:02:35 [ERROR]: Error fetching items: ConnectDb is not defined[39m
+[31m2025-01-15 15:02:52 [ERROR]: Error fetching items: ConnectDb is not defined[39m
+[31m2025-01-15 15:02:53 [ERROR]: Error fetching items: ConnectDb is not defined[39m
+[31m2025-01-15 15:02:55 [ERROR]: Error fetching items: ConnectDb is not defined[39m
+[31m2025-01-15 15:02:59 [ERROR]: Error fetching items: ConnectDb is not defined[39m
+[31m2025-01-15 15:03:28 [ERROR]: Error fetching items: _model_schema__WEBPACK_IMPORTED_MODULE_0__.Product.find(...).sort(...).limit(...).toArray is not a function[39m
+[31m2025-01-15 15:03:32 [ERROR]: Error fetching items: _model_schema__WEBPACK_IMPORTED_MODULE_0__.Product.find(...).sort(...).limit(...).toArray is not a function[39m
+[31m2025-01-15 15:04:35 [ERROR]: Error fetching items: _model_schema__WEBPACK_IMPORTED_MODULE_0__.Product.find(...).sort(...).limit(...).toArray is not a function[39m
+[31m2025-01-16 21:23:36 [ERROR]: Error fetching item: getaddrinfo ENOTFOUND cluster0-shard-00-01.ngg01.mongodb.net[39m
+[31m2025-01-17 15:41:27 [ERROR]: Error in product handler: Cannot destructure property 'id' of 'params' as it is undefined.[39m
+[31m2025-01-17 15:41:29 [ERROR]: Error in product handler: Cannot destructure property 'id' of 'params' as it is undefined.[39m
+[31m2025-01-17 15:41:32 [ERROR]: Error in product handler: Cannot destructure property 'id' of 'params' as it is undefined.[39m
+[31m2025-01-17 15:41:38 [ERROR]: Error in product handler: Cannot destructure property 'id' of 'params' as it is undefined.[39m
+[31m2025-01-17 19:04:59 [ERROR]: Error parsing tags: Unexpected token 'l', "leather-cases" is not valid JSON[39m
+[31m2025-01-17 19:04:59 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:05:00 [ERROR]: Error parsing tags: Unexpected token 'l', "leather-cases" is not valid JSON[39m
+[31m2025-01-17 19:05:00 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:05:02 [ERROR]: Error parsing tags: Unexpected token 'l', "leather-cases" is not valid JSON[39m
+[31m2025-01-17 19:05:02 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:06:15 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:06:16 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:06:18 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:06:18 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:06:18 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:06:20 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:06:20 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:06:22 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:06:22 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:23 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:23 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:24 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:25 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:27 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:30 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:30 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:31 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:31 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:33 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:33 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:37 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:37 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:44 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:44 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:45 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:45 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:47 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:47 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:10:51 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:10:51 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:11:02 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:11:02 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:11:04 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:11:04 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:12:45 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:12:45 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:13:36 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:13:36 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:13:40 [ERROR]: Error parsing tags: Unexpected token 'i', "iphone-cases" is not valid JSON[39m
+[31m2025-01-17 19:13:40 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:14:08 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:14:09 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:14:11 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:14:15 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:14:25 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:14:26 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:14:28 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:14:32 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:15:03 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:15:04 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:15:06 [ERROR]: Error fetching items: buildSort is not defined[39m
+[31m2025-01-17 19:15:10 [ERROR]: Error fetching items: buildSort is not defined[39m

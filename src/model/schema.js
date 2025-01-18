@@ -106,7 +106,7 @@ const productSchema = new mongoose.Schema(
 		stock: {
 			type: Number,
 			required: true,
-			default: 0,
+			default: 1,
 		},
 		comments: {
 			type: [String],
@@ -128,20 +128,12 @@ const productSchema = new mongoose.Schema(
 			required: false,
 			unique: true,
 		},
-		tags: {
+		itemModel: {
 			type: [String],
 			required: true,
 			default: [],
 		},
-		variants: [
-			{
-				color: String,
-				size: String,
-				price: Number, // Optional: Override base price for specific variants
-				stock: Number,
-			},
-		],
-		isFeatured: {
+		isOnSale: {
 			type: Boolean,
 			required: false,
 			default: false,
@@ -151,32 +143,84 @@ const productSchema = new mongoose.Schema(
 			required: false,
 			default: true,
 		},
+		details: {
+			type: [String],
+			required: true,
+			default: [],
+		},
+		tags: {
+			type: [String],
+			required: true,
+			default: [],
+		},
+		colors: {
+			type: [String],
+			required: true,
+			default: [],
+		},
+		materials: {
+			type: [String],
+			required: true,
+			default: [],
+		},
+		features: {
+			type: [String],
+			required: true,
+			default: [],
+		},
 	},
 	{
 		timestamps: true,
 	}
 );
 
-const cartSchema = new mongoose.Schema({
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
-		required: true,
+const cartSchema = new mongoose.Schema(
+	{
+		userId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+		products: [
+			{
+				productId: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Product",
+					required: true,
+				},
+				quantity: {
+					type: Number,
+					required: true,
+					min: 1, // Ensuring quantity is at least 1
+				},
+				color: {
+					type: String,
+					required: true,
+				},
+				model: {
+					type: String, // You can store the specific model name here, assuming `itemModel` is an array of model names in the `Product` schema.
+					required: true,
+				},
+				totalPrice: {
+					type: Number,
+					required: true,
+					min: 0, // Total price should not be negative
+				},
+			},
+		],
+		createdAt: {
+			type: Date,
+			default: Date.now,
+		},
+		updatedAt: {
+			type: Date,
+			default: Date.now,
+		},
 	},
-	products: {
-		type: [mongoose.Schema.Types.ObjectId],
-		ref: "Product",
-		required: true,
-	},
-	quantity: {
-		type: Number,
-		required: true,
-	},
-	totalPrice: {
-		type: Number,
-		required: true,
-	},
-});
+	{
+		timestamps: true,
+	}
+);
 
 const User = mongoose.models.User || mongoose.model("User", authSchema);
 const Product =

@@ -1,100 +1,97 @@
 import { Product } from "@/model/schema";
 import ConnectDb from "@/utils/connect";
+import logger from "@/utils/logger";
 import { NextResponse } from "next/server";
 
-const validateItem = (item) => {
-	if (typeof item !== "object") return false;
-	if (typeof item.itemName !== "string") return false;
-	if (typeof item.price !== "number") return false;
-	if (typeof item.description !== "string") return false;
-	if (!Array.isArray(item.image)) return false; // Fixed: image should be an array
-	if (typeof item.discount !== "number") return false;
-	if (typeof item.category !== "string") return false;
-	if (typeof item.stock !== "number") return false;
-	if (typeof item.isFeatured !== "boolean") return false;
-	if (typeof item.brand !== "string") return false;
-	if (!Array.isArray(item.tags)) return false;
-	if (!Array.isArray(item.variants)) return false;
-	if (typeof item.rating !== "number") return false;
-	if (typeof item.available !== "boolean") return false;
-	return true;
-};
-
+// Helper function to generate SKU
 const generateSku = (brand, itemName, category) => {
-	const brandCode = brand.slice(0, 3).toUpperCase();
-	const itemCode = itemName.slice(0, 3).toUpperCase();
-	const categoryCode = category.slice(0, 3).toUpperCase();
-	const sku = `${brandCode}-${itemCode}-${categoryCode}`;
-	return sku;
+	const brandCode = brand.slice(0, 3).toUpperCase(); // First 3 letters of brand
+	const itemCode = itemName.slice(0, 3).toUpperCase(); // First 3 letters of item name
+	const categoryCode = category.slice(0, 3).toUpperCase(); // First 3 letters of category
+	return `${brandCode}-${itemCode}-${categoryCode}`; // Combine to create SKU
 };
 
-// add product
+// Add a new product
 export async function POST(req) {
 	try {
-		const reqBody = await req.json();
+		// Parse the request body
+		const {
+			itemName,
+			description,
+			image,
+			price,
+			category,
+			stock,
+			brand,
+			discount,
+			itemModel,
+			details,
+			tags,
+			colors,
+			materials,
+			features,
+			isOnSale,
+		} = await req.json();
 
-		const requiredFields = [
-			"itemName",
-			"price",
-			"description",
-			"image",
-			"discount",
-			"category",
-			"stock",
-			"isFeatured",
-			"brand",
-			"tags",
-			"variants",
-			"rating",
-			"available",
-		];
-
-		for (const field of requiredFields) {
-			if (!reqBody[field]) {
-				return NextResponse.json(
-					{ message: `${field} is required` },
-					{ status: 400 }
-				);
-			}
-		}
-
-		if (!validateItem(reqBody)) {
+		// Validate required fields
+		if (
+			!brand ||
+			!itemName ||
+			!category ||
+			!itemModel ||
+			!details ||
+			!tags ||
+			!image ||
+			!price ||
+			!stock ||
+			!colors ||
+			!materials ||
+			!features ||
+			!isOnSale
+		) {
 			return NextResponse.json(
-				{ message: "Invalid item data" },
+				{ message: "Missing required fields" },
 				{ status: 400 }
 			);
 		}
 
 		// Generate SKU
-		const sku = generateSku(reqBody.brand, reqBody.itemName, reqBody.category);
+		const sku = generateSku(brand, itemName, category);
 
+		// Connect to the database
 		await ConnectDb();
 
-		// Create the new item
+		// Create the new product
 		const newItem = await Product.create({
-			itemName: reqBody.itemName,
-			description: reqBody.description,
-			image: reqBody.image,
-			price: reqBody.price,
-			rating: reqBody.rating,
-			discount: reqBody.discount,
-			category: reqBody.category,
-			stock: reqBody.stock,
-			isFeatured: reqBody.isFeatured,
-			brand: reqBody.brand,
-			available: reqBody.available,
-			tags: reqBody.tags,
-			variants: reqBody.variants,
-			sku: sku,
+			itemName,
+			description,
+			image,
+			price,
+			category,
+			stock,
+			brand,
+			sku,
+			discount,
+			details,
+			itemModel,
+			tags,
+			colors,
+			materials,
+			features,
+			isOnSale,
 		});
-		console.log("New Item:", newItem); // Debugging line
 
+		// Log the new item for debugging
+		logger.info("New Item Created:", newItem);
+
+		// Return success response
 		return NextResponse.json(
 			{ message: "Item created successfully", data: newItem },
 			{ status: 201 }
 		);
 	} catch (error) {
-		console.error("Error creating item:", error);
+		// Log and handle errors
+		logger.error("Error creating item:", error);
 		return NextResponse.json(
 			{ message: "Internal server error" },
 			{ status: 500 }
@@ -102,16 +99,114 @@ export async function POST(req) {
 	}
 }
 
-export async function GET() {
+// Helper function to build query object
+const buildQuery = (searchParams) => {
+	const query = {};
+	const category = searchParams.get("category");
+	const price = searchParams.get("price");
+	const rating = searchParams.get("rating");
+	const isOnSale = searchParams.get("isOnSale");
+	const itemModel = searchParams.get("itemModel");
+	const brand = searchParams.get("brand");
+	const search = searchParams.get("search");
+	const model = searchParams.get("model");
+	const tags = searchParams.get("tags");
+	if (category) query.category = category;
+	if (price) query.price = { $lte: Number(price) };
+	if (rating) query.rating = { $gte: Number(rating) };
+	if (isOnSale) query.isOnSale = isOnSale === "true";
+	if (itemModel) query.itemModel = itemModel;
+	if (brand) query.brand = brand;
+
+	if (model) {
+		try {
+			const parsedModel = JSON.parse(model);
+			if (Array.isArray(parsedModel) && parsedModel.length > 0) {
+				query.itemModel = {
+					$in: parsedModel.map(
+						(m) => new RegExp(m.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "i")
+					),
+				};
+			}
+		} catch (e) {
+			logger.error("Error parsing model:", e);
+		}
+	}
+
+	if (tags) {
+		try {
+			// Try parsing as JSON first
+			const parsedTags = JSON.parse(tags);
+			if (Array.isArray(parsedTags) && parsedTags.length > 0) {
+				query.tags = {
+					$in: parsedTags.map(
+						(t) => new RegExp(t.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "i")
+					),
+				};
+			}
+		} catch (e) {
+			// If JSON parsing fails, treat as a single tag string
+			query.tags = new RegExp(
+				tags.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"),
+				"i"
+			);
+		}
+	}
+
+	if (search) {
+		query.$or = [
+			{ itemName: { $regex: search, $options: "i" } },
+			{ category: { $regex: search, $options: "i" } },
+			{ brand: { $regex: search, $options: "i" } },
+			{ description: { $regex: search, $options: "i" } },
+		];
+	}
+
+	return query;
+};
+
+// Helper function to build sort object
+const buildSort = (sortBy, sortOrder) => {
+	return sortBy
+		? { [sortBy]: sortOrder === "desc" ? -1 : 1 }
+		: { createdAt: -1 };
+};
+
+export async function GET(req) {
 	try {
 		await ConnectDb();
-		const items = await Product.find();
+		const searchParams = req.nextUrl.searchParams;
+		const sortBy = searchParams.get("sortBy");
+		const sortOrder = searchParams.get("sortOrder") || "desc";
+		const page = Number(searchParams.get("page")) || 1;
+		const limit = Number(searchParams.get("limit")) || 10;
+		const skip = (page - 1) * limit;
+		const tags = searchParams.get("tags") || "";
+
+		const query = buildQuery(searchParams);
+		const sort = buildSort(sortBy, sortOrder);
+		const tagsQuery = tags ? { tags: { $in: tags } } : {};
+		const [items, totalItems] = await Promise.all([
+			Product.find({ ...query, ...tagsQuery })
+				.sort(sort)
+				.skip(skip)
+				.limit(limit),
+			Product.countDocuments({ ...query, ...tagsQuery }),
+		]);
+
+		logger.info("Items Fetched:", items);
+
 		return NextResponse.json({
-			message: "items fetched successfully",
 			data: items,
+			pagination: {
+				currentPage: page,
+				totalPages: Math.ceil(totalItems / limit),
+				totalItems,
+				itemsPerPage: limit,
+			},
 		});
 	} catch (error) {
-		console.error("Error fetching items:", error);
+		logger.error("Error fetching items:", error);
 		return NextResponse.json(
 			{ message: "Internal server error" },
 			{ status: 500 }
